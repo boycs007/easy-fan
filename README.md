@@ -2,6 +2,35 @@
 
 Easy-Fan 是一个基于 Go 语言实现的并行处理框架，采用 FAN IN/FAN OUT 模式，帮助开发者轻松实现并发任务处理。
 
+## 架构图
+
+```mermaid
+graph TD
+    subgraph User Implementation
+        A[Input Data] --> B[BatchProcessor]
+        B --> C[User Handler Function]
+        C --> D[Processed Results]
+    end
+
+    subgraph Framework Core
+        B --> E[Fan Out]
+        E --> F1[Worker 1]
+        E --> F2[Worker 2]
+        E --> F3[Worker N]
+        F1 --> G[Fan In]
+        F2 --> G
+        F3 --> G
+        G --> D
+    end
+
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style C fill:#f9f,stroke:#333,stroke-width:2px
+    style D fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
+    style E fill:#bbf,stroke:#333,stroke-width:2px
+    style G fill:#bbf,stroke:#333,stroke-width:2px
+```
+
 ## 特性
 
 - 简单易用的 API 设计
