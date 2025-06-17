@@ -6,29 +6,36 @@ Easy-Fan 是一个基于 Go 语言实现的并行处理框架，采用 FAN IN/FA
 
 ```mermaid
 graph TD
-    subgraph User Implementation
-        A[Input Data] --> B[BatchProcessor]
-        B --> C[User Handler Function]
-        C --> D[Processed Results]
-    end
+    
+    A[Input Data] --> B[BatchProcessor]
+    D[Processed Results]
 
     subgraph Framework Core
-        B --> E[Fan Out]
-        E --> F1[Worker 1]
-        E --> F2[Worker 2]
-        E --> F3[Worker N]
+        E[Fan Out]
+        subgraph F1[Worker 1]
+        		C1[User Handler Function]
+        end
+        subgraph F2[Worker 2]
+        		C2[User Handler Function]
+        end
+        subgraph F3[Worker N]
+        		C3[User Handler Function]
+        end
+        E --> F1
+        E --> F2
+        E --> F3
         F1 --> G[Fan In]
         F2 --> G
         F3 --> G
-        G --> D
     end
-
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-    style C fill:#f9f,stroke:#333,stroke-width:2px
-    style D fill:#f9f,stroke:#333,stroke-width:2px
-    style B fill:#bbf,stroke:#333,stroke-width:2px
-    style E fill:#bbf,stroke:#333,stroke-width:2px
-    style G fill:#bbf,stroke:#333,stroke-width:2px
+    B --> E
+    G --> D
+    
+    classDef user fill:#f9f,stroke:#333,stroke-width:2px
+    classDef frame fill:#bbf,stroke:#333,stroke-width:2px
+    
+    class A,D,C1,C2,C3 user;
+    class B,E,G,F1,F2,F3 frame;
 ```
 
 ## 特性
